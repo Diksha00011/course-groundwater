@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Groundwater Analysis: Mapping, Fluctuation & Recharge — Course Brochure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-darkest: #04342C;
+      --green-dark:    #085041;
+      --green-mid:     #0F6E56;
+      --green-base:    #1D9E75;
+      --green-light:   #5DCAA5;
+      --green-lighter: #9FE1CB;
+      --green-bg:      #E1F5EE;
+      --text-primary:  #1a1a1a;
+      --text-secondary:#555;
+      --text-muted:    #888;
+      --bg-page:       #f5f5f2;
+      --bg-card:       #ffffff;
+      --bg-surface:    #f0eeea;
+      --border:        rgba(0,0,0,0.10);
+      --border-strong: rgba(0,0,0,0.18);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 40px 16px 60px;
+    }
+
+    .page {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      background: var(--green-dark);
+      border-radius: var(--radius-lg);
+      padding: 52px 48px 44px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(93,202,165,0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(93,202,165,0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .hero-content { position: relative; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      color: var(--green-lighter);
+      border: 0.5px solid rgba(93,202,165,0.3);
+      margin-bottom: 22px;
+    }
+
+    .badge::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green-light);
+      display: inline-block;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 40px;
+      line-height: 1.15;
+      font-weight: 400;
+      color: #fff;
+      margin-bottom: 16px;
+      max-width: 580px;
+    }
+
+    .hero h1 em { font-style: italic; color: var(--green-light); }
+
+    .hero-desc {
+      font-size: 15px;
+      color: var(--green-lighter);
+      line-height: 1.75;
+      max-width: 540px;
+      margin-bottom: 32px;
+    }
+
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      border: 0.5px solid rgba(93,202,165,0.3);
+      background: rgba(255,255,255,0.07);
+      color: var(--green-lighter);
+    }
+
+    .pill svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    /* ── Date banner ── */
+    .date-banner {
+      background: var(--green-base);
+      border-radius: var(--radius-md);
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .date-banner .date-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.7); margin-bottom: 3px; }
+    .date-banner .date-val { font-family: 'DM Serif Display', serif; font-size: 22px; color: #fff; font-weight: 400; }
+    .date-banner .date-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.2); }
+    .date-banner .seats { font-size: 13px; color: rgba(255,255,255,0.85); }
+    .date-banner .seats strong { color: #fff; font-weight: 500; }
+
+    /* ── Stats row ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stat-card .val {
+      font-family: 'DM Serif Display', serif;
+      font-size: 30px;
+      color: var(--green-base);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-card .lbl {
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    /* ── Section headers ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green-base);
+      margin-bottom: 16px;
+    }
+
+    /* ── Outcomes ── */
+    .outcomes-section {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      margin-bottom: 24px;
+    }
+
+    .outcomes-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .outcome-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .outcome-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-md);
+      background: var(--green-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .outcome-icon svg { width: 22px; height: 22px; color: var(--green-mid); }
+
+    .outcome-body h3 {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 5px;
+      color: var(--text-primary);
+    }
+
+    .outcome-body p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* ── Prerequisites ── */
+    .prereq-section {
+      background: var(--green-dark);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      margin-bottom: 24px;
+    }
+
+    .prereq-section .section-label { color: var(--green-light); }
+
+    .prereq-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .prereq-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .prereq-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--green-lighter);
+      line-height: 1.55;
+    }
+
+    .prereq-list li svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--green-light);
+    }
+
+    /* ── Pricing ── */
+    .pricing-section {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      margin-bottom: 24px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .price-card {
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      background: var(--bg-surface);
+      position: relative;
+    }
+
+    .price-card.featured {
+      border: 1.5px solid var(--green-base);
+      background: var(--green-bg);
+    }
+
+    .pop-tag {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      font-weight: 500;
+      padding: 3px 10px;
+      background: var(--green-base);
+      color: #fff;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .price-card .plan-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .price-card.featured .plan-name { color: var(--green-dark); }
+
+    .price-card .plan-amount {
+      font-family: 'DM Serif Display', serif;
+      font-size: 26px;
+      color: var(--green-base);
+      margin-bottom: 8px;
+    }
+
+    .price-card.featured .plan-amount { color: var(--green-dark); }
+
+    .price-card .plan-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .price-card.featured .plan-desc { color: var(--green-mid); }
+
+    /* ── CTA ── */
+    .cta {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .cta h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    .cta p { font-size: 13px; color: var(--text-secondary); }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green-base);
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      padding: 13px 26px;
+      font-size: 15px;
+      font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .cta-btn:hover { background: var(--green-mid); }
+
+    .cta-btn svg { width: 18px; height: 18px; }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      margin-top: 36px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .hero { padding: 36px 24px 30px; }
+      .hero h1 { font-size: 28px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .date-banner .date-divider { display: none; }
+      .cta { flex-direction: column; }
+      .outcomes-section, .prereq-section, .pricing-section { padding: 22px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-grid"></div>
+      <div class="hero-content">
+        <div class="badge">Online · Skill-based course</div>
+        <h1>Groundwater Analysis:<br><em>Mapping, Fluctuation &amp; Recharge</em></h1>
+        <p class="hero-desc">A comprehensive skill-based course for hydrogeologists, environmental scientists, and GIS professionals seeking to master groundwater level mapping, fluctuation analysis, and recharge zone identification using real-world spatial datasets.</p>
+        <div class="hero-pills">
+          <div class="pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            1 week · 6–12 June 2026
+          </div>
+          <div class="pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" width="4" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg>
+            Beginner to intermediate
+          </div>
+          <div class="pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Certificate on completion
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Date Banner -->
+    <div class="date-banner">
+      <div>
+        <div class="date-label">Course dates</div>
+        <div class="date-val">6 June – 12 June 2026</div>
+      </div>
+      <div class="date-divider"></div>
+      <div>
+        <div class="date-label">Duration</div>
+        <div class="date-val">1 week · 7 days</div>
+      </div>
+      <div class="date-divider"></div>
+      <div class="seats"><strong>Enrolments open</strong> — limited seats available</div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="val">3</div>
+        <div class="lbl">Core modules</div>
+      </div>
+      <div class="stat-card">
+        <div class="val">7</div>
+        <div class="lbl">Days of learning</div>
+      </div>
+      <div class="stat-card">
+        <div class="val">100%</div>
+        <div class="lbl">Hands-on data work</div>
+      </div>
+    </div>
+
+    <!-- Learning Outcomes -->
+    <div class="outcomes-section">
+      <p class="section-label">What you will learn</p>
+      <div class="outcomes-grid">
+
+        <div class="outcome-item">
+          <div class="outcome-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+          </div>
+          <div class="outcome-body">
+            <h3>Groundwater level mapping</h3>
+            <p>Produce piezometric surface maps and interpret spatial gradients for flow direction analysis.</p>
+          </div>
+        </div>
+
+        <div class="outcome-item">
+          <div class="outcome-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="outcome-body">
+            <h3>Fluctuation mapping &amp; prioritization</h3>
+            <p>Analyse seasonal and long-term fluctuations, generate pre- and post-monsoon difference maps, and prioritize critical zones for management.</p>
+          </div>
+        </div>
+
+        <div class="outcome-item">
+          <div class="outcome-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/><circle cx="18" cy="6" r="4" fill="#E1F5EE" stroke="currentColor"/><path d="M15 6h6M18 3v6"/></svg>
+          </div>
+          <div class="outcome-body">
+            <h3>Recharge zone identification</h3>
+            <p>Integrate geology, slope, LULC, drainage density, and soil data through multi-criteria evaluation and remote sensing to delineate recharge zones.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Prerequisites -->
+    <div class="prereq-section">
+      <p class="section-label">Before you join</p>
+      <h2>Prerequisites</h2>
+      <ul class="prereq-list">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Basic understanding of physical geography or hydrology
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Familiarity with GIS concepts — prior QGIS or ArcGIS experience is helpful but not required
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          A laptop with QGIS installed (free download at qgis.org)
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          No programming knowledge needed
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Stable internet connection for dataset downloads
+        </li>
+      </ul>
+    </div>
+
+    <!-- Pricing -->
+    <div class="pricing-section">
+      <p class="section-label">Enrolment options</p>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="plan-name">Essential</div>
+          <div class="plan-amount">₹1,099</div>
+          <div class="plan-desc">
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:4px;">
+              <li style="display:flex;gap:8px;align-items:flex-start;"><svg style="width:14px;height:14px;flex-shrink:0;margin-top:2px;color:#1D9E75;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Live sessions</li>
+              <li style="display:flex;gap:8px;align-items:flex-start;"><svg style="width:14px;height:14px;flex-shrink:0;margin-top:2px;color:#1D9E75;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Tutorial book</li>
+              <li style="display:flex;gap:8px;align-items:flex-start;"><svg style="width:14px;height:14px;flex-shrink:0;margin-top:2px;color:#1D9E75;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Course completion certificate</li>
+            </ul>
+          </div>
+        </div>
+        <div class="price-card featured">
+          <div class="pop-tag">Best value</div>
+          <div class="plan-name">Essential + Recordings</div>
+          <div class="plan-amount">₹1,599</div>
+          <div class="plan-desc">
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:4px;">
+              <li style="display:flex;gap:8px;align-items:flex-start;"><svg style="width:14px;height:14px;flex-shrink:0;margin-top:2px;color:#085041;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Live sessions</li>
+              <li style="display:flex;gap:8px;align-items:flex-start;"><svg style="width:14px;height:14px;flex-shrink:0;margin-top:2px;color:#085041;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Tutorial book</li>
+              <li style="display:flex;gap:8px;align-items:flex-start;"><svg style="width:14px;height:14px;flex-shrink:0;margin-top:2px;color:#085041;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Course completion certificate</li>
+              <li style="display:flex;gap:8px;align-items:flex-start;"><svg style="width:14px;height:14px;flex-shrink:0;margin-top:2px;color:#085041;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Recorded sessions — 3 months access</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta">
+      <div>
+        <h2>Ready to enrol?</h2>
+        <p>Registrations close 4 June 2026 · Certificate included · Limited seats</p>
+      </div>
+      <a href="YOUR_REGISTRATION_LINK_HERE" class="cta-btn">
+        Register now
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+    <div class="footer">
+      &copy; 2026 &nbsp;·&nbsp; Groundwater Analysis Course &nbsp;·&nbsp; 6–12 June 2026
+    </div>
+
+  </div>
+</body>
+</html>
